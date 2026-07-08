@@ -85,7 +85,7 @@ for (const file of htmlFiles) {
   }
 }
 
-for (const file of ['assets/css/styles.css', 'assets/js/main.js']) {
+for (const file of ['assets/css/styles.css', 'assets/js/main.js', 'assets/js/gtag.js']) {
   if (!(await exists(path.join(root, file)))) {
     failures.push(`Asset obrigatorio em falta: ${file}.`);
   }

@@ -1,7 +1,14 @@
 export const SITE_URL = 'https://pingsalesaisolutions.com';
 export const SITE_NAME = 'PingSales AI Solutions';
+export const GA_ID = 'G-C386M18FJS';
 export const OG_IMAGE = `${SITE_URL}/assets/img/og-image.jpg`;
 export const OG_IMAGE_ALT = 'PingSales AI Solutions — Engenharia de inteligência artificial';
+
+export function googleTag(assetBase = 'assets') {
+  return `<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
+<script defer src="${assetBase}/js/gtag.js"></script>`;
+}
 
 export const ogLocales = {
   pt: { og: 'pt_PT', alternates: ['en_US', 'es_ES'] },

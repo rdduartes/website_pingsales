@@ -2,7 +2,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { pages } from './legal/pages.mjs';
-import { SITE_URL, socialMeta } from './seo-config.mjs';
+import { SITE_URL, googleTag, socialMeta } from './seo-config.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -80,6 +80,7 @@ function shell(locale, meta, slug) {
   return `<!DOCTYPE html>
 <html lang="${lang[locale]}">
 <head>
+${googleTag(asset)}
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>${meta.title}</title>

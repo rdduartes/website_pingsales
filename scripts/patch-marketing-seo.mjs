@@ -3,6 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   SITE_URL,
+  googleTag,
   hreflangBlock,
   marketingPages,
   socialMeta,
@@ -60,8 +61,10 @@ function patchHead(html, { locale, pageFile, meta, isHome, isEmpresa }) {
     description: meta.description,
   });
 
-  const iconBlock = `<link rel="icon" type="image/png" href="${locale === 'pt' ? 'assets' : '../assets'}/img/favicon.png">
-<link rel="apple-touch-icon" href="${locale === 'pt' ? 'assets' : '../assets'}/img/favicon.png">`;
+  const assetBase = locale === 'pt' ? 'assets' : '../assets';
+
+  const iconBlock = `<link rel="icon" type="image/png" href="${assetBase}/img/favicon.png">
+<link rel="apple-touch-icon" href="${assetBase}/img/favicon.png">`;
 
   const jsonLd = isHome
     ? `<script type="application/ld+json">${organizationJsonLd(locale)}</script>`
@@ -70,6 +73,7 @@ function patchHead(html, { locale, pageFile, meta, isHome, isEmpresa }) {
       : '';
 
   const head = `<head>
+${googleTag(assetBase)}
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>${meta.title}</title>
@@ -80,7 +84,7 @@ ${social}
 <meta name="theme-color" content="#060410">
 ${iconBlock}
 ${jsonLd}
-<link rel="stylesheet" href="${locale === 'pt' ? 'assets' : '../assets'}/css/styles.css">
+<link rel="stylesheet" href="${assetBase}/css/styles.css">
 </head>`;
 
   return html.replace(/<head>[\s\S]*?<\/head>/, head);
