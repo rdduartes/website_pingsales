@@ -71,7 +71,7 @@ function patchHead(html, { locale, pageFile, meta, isHome, isEmpresa }) {
 
   const head = `<head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>${meta.title}</title>
 <meta name="description" content="${meta.description}">
 <meta name="robots" content="index, follow">

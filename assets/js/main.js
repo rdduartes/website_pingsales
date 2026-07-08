@@ -38,14 +38,52 @@
 /* ================= MENU ================= */
 (function(){
   const btn=document.getElementById('menuToggle');
-  if(!btn)return;
+  const menu=document.getElementById('menu');
+  if(!btn||!menu)return;
   const openLabel=btn.dataset.openLabel||'MENU';
   const closeLabel=btn.dataset.closeLabel||'FECHAR';
-  btn.addEventListener('click',()=>{
-    const open=document.body.classList.toggle('menu-open');
+  const label=btn.querySelector('.menu-label');
+  let scrollY=0;
+  const deck=document.getElementById('deck');
+
+  function getScrollPos(){
+    return deck?deck.scrollTop:window.scrollY;
+  }
+
+  function restoreScroll(pos){
+    if(deck)deck.scrollTop=pos;
+    else window.scrollTo(0,pos);
+  }
+
+  function setMenu(open){
+    document.body.classList.toggle('menu-open',open);
     btn.setAttribute('aria-expanded',open);
-    btn.querySelector('.menu-label').textContent=open?closeLabel:openLabel;
-  });
+    if(label)label.textContent=open?closeLabel:openLabel;
+    if(open){
+      scrollY=getScrollPos();
+      document.body.style.position='fixed';
+      document.body.style.top=deck?`-${window.scrollY||0}px`:`-${scrollY}px`;
+      document.body.style.left='0';
+      document.body.style.right='0';
+      if(deck)deck.style.overflow='hidden';
+    }else{
+      document.body.style.position='';
+      document.body.style.top='';
+      document.body.style.left='';
+      document.body.style.right='0';
+      if(deck){
+        deck.style.overflow='';
+        restoreScroll(scrollY);
+      }else{
+        restoreScroll(scrollY);
+      }
+      scrollY=0;
+    }
+  }
+
+  btn.addEventListener('click',()=>setMenu(!document.body.classList.contains('menu-open')));
+  menu.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>setMenu(false)));
+  addEventListener('keydown',e=>{if(e.key==='Escape')setMenu(false);});
 })();
 
 /* ================= PARTICLE FIELD ================= */
@@ -55,7 +93,7 @@ const Field=(function(){
   const ctx=cv.getContext('2d');
   const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
   let W,H,DPR;
-  const N=innerWidth<700?260:520;
+  const N=innerWidth<520?180:innerWidth<700?240:520;
   const pts=[];
   let mouse={x:-1e4,y:-1e4};
   let mode='sphere',t=0;
@@ -171,7 +209,7 @@ const Field=(function(){
         if(hint)hint.classList.toggle('hide',i>0);
       }
     });
-  },{root:deck,threshold:.55});
+  },{root:deck,threshold:innerWidth<700?0.42:0.55});
   slides.forEach(s=>io.observe(s));
 
   dots.forEach((d,i)=>d.addEventListener('click',()=>slides[i].scrollIntoView({behavior:'smooth'})));
