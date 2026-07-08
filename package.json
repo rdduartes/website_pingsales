@@ -5,7 +5,8 @@
   "scripts": {
     "validate": "node scripts/validate.mjs",
     "generate:legal": "node scripts/generate-legal.mjs",
-    "build": "npm run generate:legal && npm run validate && node scripts/build.mjs && node scripts/validate.mjs dist"
+    "seo": "node scripts/patch-marketing-seo.mjs && node scripts/generate-legal.mjs",
+    "build": "npm run seo && npm run validate && node scripts/build.mjs && node scripts/validate.mjs dist"
   },
   "engines": {
     "node": ">=18"

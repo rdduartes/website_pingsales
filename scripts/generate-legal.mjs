@@ -2,6 +2,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { pages } from './legal/pages.mjs';
+import { SITE_URL, socialMeta } from './seo-config.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -57,6 +58,25 @@ function shell(locale, meta, slug) {
   };
   const langLinks = meta.langLinks;
 
+  const canonical = `${SITE_URL}/${canonicalPrefix}${slug}/`;
+  const social = socialMeta({
+    locale,
+    canonical,
+    title: meta.ogTitle || meta.title,
+    description: meta.description,
+    type: 'article',
+  });
+  const webPageLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: meta.title,
+    description: meta.description,
+    url: canonical,
+    dateModified: '2026-07-08',
+    inLanguage: lang[locale],
+    isPartOf: { '@type': 'WebSite', name: 'PingSales', url: SITE_URL },
+  });
+
   return `<!DOCTYPE html>
 <html lang="${lang[locale]}">
 <head>
@@ -65,15 +85,16 @@ function shell(locale, meta, slug) {
 <title>${meta.title}</title>
 <meta name="description" content="${meta.description}">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://pingsales.pt/${canonicalPrefix}${slug}/">
-<link rel="alternate" hreflang="pt-PT" href="https://pingsales.pt/__SLUG_PT__">
-<link rel="alternate" hreflang="en" href="https://pingsales.pt/en/__SLUG_EN__">
-<link rel="alternate" hreflang="es" href="https://pingsales.pt/es/__SLUG_ES__">
-<link rel="alternate" hreflang="x-default" href="https://pingsales.pt/__SLUG_PT__">
-<meta property="og:title" content="${meta.ogTitle}">
-<meta property="og:locale" content="${meta.ogLocale}">
+<link rel="canonical" href="${canonical}">
+<link rel="alternate" hreflang="pt-PT" href="__SITE_URL__/__SLUG_PT__">
+<link rel="alternate" hreflang="en" href="__SITE_URL__/en/__SLUG_EN__">
+<link rel="alternate" hreflang="es" href="__SITE_URL__/es/__SLUG_ES__">
+<link rel="alternate" hreflang="x-default" href="__SITE_URL__/__SLUG_PT__">
+${social}
 <meta name="theme-color" content="#060410">
 <link rel="icon" type="image/png" href="${asset}/img/favicon.png">
+<link rel="apple-touch-icon" href="${asset}/img/favicon.png">
+<script type="application/ld+json">${webPageLd}</script>
 <link rel="stylesheet" href="${asset}/css/styles.css">
 </head>
 <body data-field="grid">
@@ -135,6 +156,7 @@ ${footLegal(locale)}
 
 function fixAlternates(html, slug) {
   return html
+    .replaceAll('__SITE_URL__', SITE_URL)
     .replaceAll('__SLUG_PT__', `${slug}/`)
     .replaceAll('__SLUG_EN__', `${slug}/`)
     .replaceAll('__SLUG_ES__', `${slug}/`);

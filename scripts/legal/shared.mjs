@@ -28,9 +28,9 @@ export const langPrivacy = {
       <a href="../es/privacy-policy/" hreflang="es">ES</a>`,
   en: `<a href="../../privacy-policy/" hreflang="pt-PT">PT</a>
       <a href="index.html" aria-current="true" hreflang="en">EN</a>
-      <a href="../es/privacy-policy/" hreflang="es">ES</a>`,
+      <a href="../../es/privacy-policy/" hreflang="es">ES</a>`,
   es: `<a href="../../privacy-policy/" hreflang="pt-PT">PT</a>
-      <a href="../en/privacy-policy/" hreflang="en">EN</a>
+      <a href="../../en/privacy-policy/" hreflang="en">EN</a>
       <a href="index.html" aria-current="true" hreflang="es">ES</a>`,
 };
 
@@ -40,9 +40,9 @@ export const langTerms = {
       <a href="../es/terms-of-service/" hreflang="es">ES</a>`,
   en: `<a href="../../terms-of-service/" hreflang="pt-PT">PT</a>
       <a href="index.html" aria-current="true" hreflang="en">EN</a>
-      <a href="../es/terms-of-service/" hreflang="es">ES</a>`,
+      <a href="../../es/terms-of-service/" hreflang="es">ES</a>`,
   es: `<a href="../../terms-of-service/" hreflang="pt-PT">PT</a>
-      <a href="../en/terms-of-service/" hreflang="en">EN</a>
+      <a href="../../en/terms-of-service/" hreflang="en">EN</a>
       <a href="index.html" aria-current="true" hreflang="es">ES</a>`,
 };
 
@@ -52,8 +52,8 @@ export const langDeletion = {
       <a href="../es/data-deletion/" hreflang="es">ES</a>`,
   en: `<a href="../../data-deletion/" hreflang="pt-PT">PT</a>
       <a href="index.html" aria-current="true" hreflang="en">EN</a>
-      <a href="../es/data-deletion/" hreflang="es">ES</a>`,
+      <a href="../../es/data-deletion/" hreflang="es">ES</a>`,
   es: `<a href="../../data-deletion/" hreflang="pt-PT">PT</a>
-      <a href="../en/data-deletion/" hreflang="en">EN</a>
+      <a href="../../en/data-deletion/" hreflang="en">EN</a>
       <a href="index.html" aria-current="true" hreflang="es">ES</a>`,
 };
