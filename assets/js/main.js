@@ -197,22 +197,36 @@ const Field=(function(){
   const cur=document.getElementById('railCur');
   const hint=document.querySelector('.scroll-hint');
 
+  function activate(slide){
+    const i=slides.indexOf(slide);
+    if(i<0)return;
+    slides.forEach(s=>s.classList.toggle('active',s===slide));
+    dots.forEach((d,j)=>d.classList.toggle('on',j===i));
+    if(cur)cur.textContent=String(i+1).padStart(2,'0');
+    if(Field)Field.set(slide.dataset.field||'drift');
+    if(hint)hint.classList.toggle('hide',i>0);
+  }
+
+  // Deteta o slide que cruza a linha central do deck. Independente da altura
+  // do slide — resolve o caso mobile em que o conteúdo é maior que o ecrã.
   const io=new IntersectionObserver(es=>{
-    es.forEach(e=>{
-      if(e.isIntersecting){
-        const i=slides.indexOf(e.target);
-        slides.forEach(s=>s.classList.remove('active'));
-        e.target.classList.add('active');
-        dots.forEach((d,j)=>d.classList.toggle('on',j===i));
-        if(cur)cur.textContent=String(i+1).padStart(2,'0');
-        if(Field)Field.set(e.target.dataset.field||'drift');
-        if(hint)hint.classList.toggle('hide',i>0);
-      }
-    });
-  },{root:deck,threshold:innerWidth<700?0.42:0.55});
+    es.forEach(e=>{if(e.isIntersecting)activate(e.target);});
+  },{root:deck,rootMargin:'-45% 0px -45% 0px',threshold:0});
   slides.forEach(s=>io.observe(s));
 
   dots.forEach((d,i)=>d.addEventListener('click',()=>slides[i].scrollIntoView({behavior:'smooth'})));
+})();
+
+/* Safety net: garante que qualquer slide sem estado ativo (ex.: conteúdo
+   mais alto que o ecrã no mobile) acaba sempre por revelar o conteúdo. */
+(function(){
+  const deck=document.getElementById('deck');
+  if(!deck)return;
+  const slides=[...deck.querySelectorAll('.slide')];
+  const io=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('seen');io.unobserve(e.target);}
+  }),{root:deck,threshold:0.01});
+  slides.forEach(s=>io.observe(s));
 })();
 
 /* ================= SUBPAGE HELPERS ================= */

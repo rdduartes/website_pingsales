@@ -156,7 +156,7 @@ body.menu-open .menu-nav a:nth-child(5){transition-delay:.47s}
 
 /* slide reveal states */
 .fx{opacity:0;transform:translateY(44px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
-.slide.active .fx{opacity:1;transform:none}
+.slide.active .fx,.slide.seen .fx{opacity:1;transform:none}
 .slide.active .fx:nth-child(2),.slide.active .fx.d2{transition-delay:.12s}
 .slide.active .fx:nth-child(3),.slide.active .fx.d3{transition-delay:.24s}
 .slide.active .fx:nth-child(4),.slide.active .fx.d4{transition-delay:.36s}
@@ -421,8 +421,11 @@ h2.slide-title{font-family:var(--fd);font-weight:800;font-size:clamp(30px,4.6vw,
   .slide{
     padding:96px 18px max(72px,env(safe-area-inset-bottom));
     min-height:100dvh;
-    justify-content:center;
+    /* Conteúdo mais alto que o ecrã (ex.: 9 áreas) alinha ao topo para
+       não ficar cortado; o resto continua centrado. */
+    justify-content:flex-start;
   }
+  .slide-inner{margin-top:auto;margin-bottom:auto}
   .giga{
     font-size:clamp(36px,11.5vw,56px);
     line-height:1.02;
