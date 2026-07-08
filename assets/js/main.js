@@ -221,7 +221,12 @@ const Field=(function(){
   const io=new IntersectionObserver(es=>es.forEach(e=>{
     if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}
   }),{threshold:.12});
-  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  document.querySelectorAll('.reveal').forEach(el=>{
+    // Elementos mais altos que o ecrã nunca atingem 12% de visibilidade —
+    // mostra-os de imediato para o conteúdo não ficar invisível.
+    if(el.offsetHeight>innerHeight*0.9){el.classList.add('on');return;}
+    io.observe(el);
+  });
 
   // page field mode
   const pf=document.body.dataset.field;

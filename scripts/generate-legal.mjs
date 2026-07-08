@@ -132,13 +132,13 @@ ${social}
 
 <main class="page">
   <header class="page-head">
-    <p class="kicker reveal">${meta.kicker}</p>
-    <h1 class="giga reveal">
+    <p class="kicker">${meta.kicker}</p>
+    <h1 class="giga">
       <span class="row"><span class="no-transform">${meta.heading}</span></span>
     </h1>
   </header>
 
-  <article class="legal-doc reveal">
+  <article class="legal-doc">
     <p class="legal-updated">${meta.updatedLabel}: ${meta.updated}</p>
     ${meta.intro ? `<p class="legal-intro">${meta.intro}</p>` : ''}
     ${meta.sections.map((section) => `<section>
